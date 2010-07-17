@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{text_captcha}
-  s.version = "0.1.0"
+  s.version = "0.1.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Nando Vieira"]
@@ -21,6 +21,8 @@ Gem::Specification.new do |s|
      "lib/text_captcha/config.rb",
      "lib/text_captcha/validation.rb",
      "lib/text_captcha/version.rb",
+     "locales/en.yml",
+     "locales/pt.yml",
      "test/config_test.rb",
      "test/test_helper.rb",
      "test/text_captcha_test.rb"
