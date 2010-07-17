@@ -39,7 +39,7 @@ begin
     gem.authors = ["Nando Vieira"]
     gem.version = TextCaptcha::Version::STRING
     gem.summary = "Simple captcha based on plain text questions."
-    gem.files =  FileList["README.rdoc", "{lib,test}/**/*", "Rakefile"]
+    gem.files =  FileList["README.rdoc", "{lib,test,locales}/**/*", "Rakefile"]
   end
 
   Jeweler::GemcutterTasks.new
