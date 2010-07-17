@@ -1,0 +1,12 @@
+en:
+  text_captcha:
+    error_message: "You need to answer the anti-spam question."
+    challenges:
+      - - "The colour of a red T-shirt is?"
+        - ["red"]
+      - - "What is two plus two?"
+        - ["4", "four"]
+      - - "Green, tracksuit or elephant: the colour is?"
+        - ["green"]
+      - - "The colour of a blue shark is?"
+        - ["blue"]

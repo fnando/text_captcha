@@ -1,0 +1,13 @@
+pt: &PT
+  text_captcha:
+    error_message: "Você precisa responder a pergunta anti-spam corretamente."
+    challenges:
+      - - Quanto é 2 + 2?
+        - ["4", "quatro"]
+      - - Que dia vem depois de sábado?
+        - ["domingo"]
+      - - Quantas horas tem 1 dia?
+        - ["24"]
+
+pt-BR:
+  <<: *PT
