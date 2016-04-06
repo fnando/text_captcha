@@ -22,10 +22,18 @@ module TextCaptcha
     #   #=> true
     #
     attr_accessor :enabled
+
+    # Set the encryption key.
+    # This value will be used to generate an encrypted challenge id.
+    attr_accessor :encryption_key
   end
 
   # TextCaptcha is enabled by default
   self.enabled = true
+
+  # Set a random key by default. This may invalidate loaded
+  # forms when restarting the server, but it's not a big problem.
+  self.encryption_key = nil
 
   I18n.load_path += Dir[File.dirname(__FILE__) + "/../locales/**/*.yml"]
 

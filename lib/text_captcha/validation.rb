@@ -85,6 +85,22 @@ module TextCaptcha
         current_challenge.last
       end
 
+      # Return an encrypted challenge id.
+      # This is useful to add to a form.
+      def encrypted_challenge_id
+        ActiveSupport::MessageEncryptor
+          .new(text_captcha_encryption_key)
+          .encrypt_and_sign(challenge_id.to_s)
+      end
+
+      # Assign decrypted challenge id.
+      def encrypted_challenge_id=(encrypted_challenge_id)
+        @challenge_id = ActiveSupport::MessageEncryptor
+                          .new(text_captcha_encryption_key)
+                          .decrypt_and_verify(encrypted_challenge_id.to_s)
+                          .to_i
+      end
+
       # Return the question id. If none is assigned it chooses one randomly.
       def challenge_id
         @challenge_id ||= Kernel.rand(all_challenges.count)
@@ -106,6 +122,7 @@ module TextCaptcha
       end
 
       private
+
       # Check if the answer is correct. Add an error to
       # <tt><:challenge_answer/tt> attribute otherwise.
       def check_challenge_answer
@@ -117,6 +134,12 @@ module TextCaptcha
       # Normalize the strings for comparison.
       def to_captcha(str)
         str.to_s.squish.downcase
+      end
+
+      # Return the encryption key.
+      def text_captcha_encryption_key
+        return TextCaptcha.encryption_key if TextCaptcha.encryption_key
+        raise ArgumentError, "no TextCaptcha.encryption_key defined"
       end
     end
   end

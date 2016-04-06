@@ -90,4 +90,24 @@ class TextCaptchaTest < Minitest::Test
     refute @comment.valid?
     assert @comment.errors[:challenge_answer].include?(I18n.t("errors.messages.invalid_challenge_answer"))
   end
+
+  def test_return_encrypted_key
+    TextCaptcha.encryption_key = SecureRandom.hex(50)
+
+    @comment = Comment.new
+    challenge_id = @comment.challenge_id
+    encrypted_id = @comment.encrypted_challenge_id
+
+    refute_equal challenge_id, encrypted_id
+
+    @another_comment = Comment.new
+    @another_comment.encrypted_challenge_id = encrypted_id
+
+    assert_equal challenge_id, @another_comment.challenge_id
+  end
+
+  def test_raise_exception_when_have_no_encryption_key
+    TextCaptcha.encryption_key = nil
+    assert_raises(ArgumentError) { Comment.new.encrypted_challenge_id }
+  end
 end
