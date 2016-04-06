@@ -80,6 +80,55 @@ end
 #=> true
 ```
 
+### Creating a form
+
+First, define the encryption key; this will be used to generate an encrypted version of the challenge id.
+
+```ruby
+# config/initializers/text_captcha.rb
+TextCaptcha.encryption_key = "SOME VALUE"
+```
+
+Then you can create your form. I'm using an `User` model, which may have just a call to `validates_captcha` and an instance of it under the `@user` variable on the controller.
+
+```erb
+<%= form_for @user do |f| %>
+  <!-- other fields, etc, etc, etc -->
+
+  <!-- this is important -->
+  <%= f.hidden_field :encrypted_challenge_id %>
+
+  <%= f.submit %>
+<% end %>
+```
+
+And your controller may be something like this:
+
+```ruby
+class UsersController < ApplicationController
+  def new
+    @user = User.new
+  end
+
+  def create
+    @user = User.new(user_params)
+
+    if @user.save
+      # do something
+    else
+      render :new
+    end
+  end
+
+  private
+
+  def user_params
+    params.require(:user)
+          .permit(:name, :email, :password, :encrypted_challenge_id)
+  end
+end
+```
+
 ### I18n
 
 To set the error message, just define the following scope:
