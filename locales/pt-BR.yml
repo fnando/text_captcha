@@ -1,6 +1,9 @@
 pt-BR:
+  errors:
+    messages:
+      invalid_challenge_answer: "está incorreta"
+
   text_captcha:
-    error_message: "Você precisa responder a pergunta anti-spam corretamente."
     challenges:
       - - Quanto é 2 + 2?
         - ["4", "quatro"]

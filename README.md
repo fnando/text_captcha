@@ -59,7 +59,7 @@ end
 #=> false
 
 @comment.errors[:challenge_answer]
-#=> ["You need to answer the anti-spam question."]
+#=> ["is not a valid answer"]
 ```
 
 You can disable TextCaptcha without having to remove all validations.
@@ -78,6 +78,17 @@ end
 @comment = Comment.new
 @comment.valid?
 #=> true
+```
+
+### I18n
+
+To set the error message, just define the following scope:
+
+```yaml
+en:
+  errors:
+    messages:
+      invalid_challenge_answer: "is invalid"
 ```
 
 ## To-Do

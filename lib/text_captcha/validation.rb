@@ -51,7 +51,7 @@ module TextCaptcha
       #   #=> false
       #
       #   @comment.errors[:challenge_answer]
-      #   #=> ["You need to answer the anti-spam question."]
+      #   #=> ["is not a valid answer"]
       #
       #
       def validates_captcha(options = {})
@@ -110,7 +110,7 @@ module TextCaptcha
       # <tt><:challenge_answer/tt> attribute otherwise.
       def check_challenge_answer
         unless valid_challenge_answer?
-          errors.add(:challenge_answer, I18n.t("text_captcha.error_message"))
+          errors.add(:challenge_answer, :invalid_challenge_answer)
         end
       end
 

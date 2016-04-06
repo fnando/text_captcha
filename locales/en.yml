@@ -1,6 +1,9 @@
 en:
+  errors:
+    messages:
+      invalid_challenge_answer: "is not a valid answer"
+
   text_captcha:
-    error_message: "You need to answer the anti-spam question."
     challenges:
       - - "The color of a red T-shirt is?"
         - ["red"]

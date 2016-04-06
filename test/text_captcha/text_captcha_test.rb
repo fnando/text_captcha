@@ -60,7 +60,7 @@ class TextCaptchaTest < Minitest::Test
 
   def test_require_captcha_answer
     refute @user.valid?
-    assert @user.errors[:challenge_answer].include?(I18n.t("text_captcha.error_message"))
+    assert @user.errors[:challenge_answer].include?(I18n.t("errors.messages.invalid_challenge_answer"))
   end
 
   def test_accept_valid_answer
@@ -88,6 +88,6 @@ class TextCaptchaTest < Minitest::Test
     @comment = Comment.new
     assert @comment.challenge
     refute @comment.valid?
-    assert @comment.errors[:challenge_answer].include?(I18n.t("text_captcha.error_message"))
+    assert @comment.errors[:challenge_answer].include?(I18n.t("errors.messages.invalid_challenge_answer"))
   end
 end
