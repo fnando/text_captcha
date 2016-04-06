@@ -1,9 +1,8 @@
-require "active_record"
-require "active_support/all"
+require "active_model"
 
 module TextCaptcha
-  autoload :Validation,  "text_captcha/validation"
-  autoload :Version,  "text_captcha/version"
+  require "text_captcha/validation"
+  require "text_captcha/version"
 
   class << self
     # You can disable TextCaptcha without having to remove all validations.
@@ -29,5 +28,10 @@ module TextCaptcha
   self.enabled = true
 
   I18n.load_path += Dir[File.dirname(__FILE__) + "/../locales/**/*.yml"]
-  ::ActiveRecord::Base.send :include, TextCaptcha::Validation
+
+  begin
+    require "active_record"
+    ::ActiveRecord::Base.send :include, TextCaptcha::Validation
+  rescue LoadError
+  end
 end

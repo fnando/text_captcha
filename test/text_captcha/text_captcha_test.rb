@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
 end
 
 class Account < ActiveRecord::Base
-  validates_captcha :on => :save
+  validates_captcha :if => :new_record?
 end
 
 class Comment
@@ -15,7 +15,7 @@ class Comment
   validates_captcha
 end
 
-class TextCaptchaTest < Test::Unit::TestCase
+class TextCaptchaTest < Minitest::Test
   def setup
     I18n.locale = :en
     TextCaptcha.enabled = true
@@ -29,6 +29,7 @@ class TextCaptchaTest < Test::Unit::TestCase
 
   def test_skip_captcha_validation_when_is_disabled
     TextCaptcha.enabled = false
+    @user.challenge_answer = nil
     assert @user.valid?
   end
 
@@ -54,12 +55,12 @@ class TextCaptchaTest < Test::Unit::TestCase
   end
 
   def test_return_challenge
-    assert_not_nil @user.challenge
+    assert @user.challenge
   end
 
   def test_require_captcha_answer
-    assert !@user.valid?
-    assert_equal I18n.t("text_captcha.error_message"), @user.errors[:challenge_answer].to_s
+    refute @user.valid?
+    assert @user.errors[:challenge_answer].include?(I18n.t("text_captcha.error_message"))
   end
 
   def test_accept_valid_answer
@@ -73,21 +74,20 @@ class TextCaptchaTest < Test::Unit::TestCase
     assert @user.valid?
   end
 
-  def test_respect_on_save_option
+  def test_respect_if_option
     @account.challenge_answer = @account.challenge_answers.first
     assert @account.save
 
     @account.challenge_answer = nil
     @account.challenge_id = nil
 
-    assert !@account.valid?
-    assert_equal I18n.t("text_captcha.error_message"), @account.errors[:challenge_answer].to_s
+    assert @account.valid?
   end
 
   def test_extend_any_object
     @comment = Comment.new
-    assert_not_nil @comment.challenge
-    assert !@comment.valid?
-    assert_equal I18n.t("text_captcha.error_message"), @comment.errors[:challenge_answer].to_s
+    assert @comment.challenge
+    refute @comment.valid?
+    assert @comment.errors[:challenge_answer].include?(I18n.t("text_captcha.error_message"))
   end
 end

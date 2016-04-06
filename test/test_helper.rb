@@ -1,8 +1,9 @@
-require "rubygems"
-gem "test-unit"
-require "test/unit"
-require "mocha"
+require "codeclimate-test-reporter"
+CodeClimate::TestReporter.start
 
+require "bundler/setup"
+require "minitest/utils"
+require "minitest/autorun"
 require "text_captcha"
 
 ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :database => ":memory:")

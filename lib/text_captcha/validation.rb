@@ -26,7 +26,7 @@ module TextCaptcha
       #   @comment = Comment.new
       #
       #   @comment.challenge
-      #   #=> The colour of a red T-shirt is?
+      #   #=> The color of a red T-shirt is?
       #
       #   @comment.challenge_answer = "red"
       #   @comment.valid?
@@ -62,7 +62,7 @@ module TextCaptcha
         # Otherwise, validations won't run because regular classes don't
         # have save new record status.
         if self.ancestors.include?(::ActiveRecord::Base)
-          options.reverse_merge!(:on => :create)
+          options.reverse_merge!(on: :create)
         end
 
         validate :check_challenge_answer, options
@@ -85,8 +85,7 @@ module TextCaptcha
         current_challenge.last
       end
 
-      # Return the question id. If none is assigned it chooses on
-      # randomly.
+      # Return the question id. If none is assigned it chooses one randomly.
       def challenge_id
         @challenge_id ||= Kernel.rand(all_challenges.count)
       end
@@ -96,13 +95,13 @@ module TextCaptcha
         @all_challenges ||= I18n.t("text_captcha.challenges")
       end
 
-      # Detect if the answer is correct. Will also return true if <tt>TextCaptcha.enabled</tt>
-      # is set to <tt>false</tt>.
+      # Detect if the answer is correct. Will also return true if
+      # <tt>TextCaptcha.enabled</tt> is set to <tt>false</tt>.
       def valid_challenge_answer?
-        return false unless current_challenge
         return true unless TextCaptcha.enabled
+        return false unless current_challenge
 
-        answers = challenge_answers.collect {|a| to_captcha(a)}
+        answers = challenge_answers.map {|a| to_captcha(a)}
         !challenge_answer.blank? && answers.include?(to_captcha(challenge_answer))
       end
 

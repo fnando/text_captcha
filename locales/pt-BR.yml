@@ -1,4 +1,4 @@
-pt: &PT
+pt-BR:
   text_captcha:
     error_message: "Você precisa responder a pergunta anti-spam corretamente."
     challenges:
@@ -8,6 +8,3 @@ pt: &PT
         - ["domingo"]
       - - Quantas horas tem 1 dia?
         - ["24"]
-
-pt-BR:
-  <<: *PT
